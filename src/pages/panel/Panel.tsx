@@ -1,7 +1,6 @@
 'use client';
 
 import '@pages/panel/Panel.css';
-import { PanelHeader, ConversationArea, InputArea } from './components';
 import { useChat } from './hooks/useChat';
 
 export default function Panel() {
@@ -14,9 +13,7 @@ export default function Panel() {
 
   return (
     <div className="flex h-screen w-full flex-col bg-background">
-      <PanelHeader />
-      <ConversationArea messages={messages} isLoading={isLoading} />
-      <InputArea isLoading={isLoading} onSubmit={handleSubmit} />
+      Test
     </div>
   );
 }
