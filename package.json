@@ -24,10 +24,11 @@
   },
   "type": "module",
   "dependencies": {
+    "@page-chat/api-schema": "*",
+    "axios": "^1.12.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "webextension-polyfill": "^0.12.0",
-    "@page-chat/api-schema": "*"
+    "webextension-polyfill": "^0.12.0"
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.3",
