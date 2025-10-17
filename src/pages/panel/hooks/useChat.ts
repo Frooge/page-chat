@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { streamChat } from '../services/chatService';
 
 export interface ChatMessage {
   id: string;
@@ -40,30 +41,41 @@ export function useChat(options?: UseChatOptions) {
       addMessage(userMessage);
       setIsLoading(true);
 
+      // Create assistant message placeholder
+      const assistantMessageId = (Date.now() + 1).toString();
+      const assistantMessage: ChatMessage = {
+        id: assistantMessageId,
+        role: 'assistant',
+        content: '',
+      };
+
+      addMessage(assistantMessage);
+
       try {
-        // TODO: Replace with actual API call
-        // Example:
-        // const response = await fetch('/api/chat', {
-        //   method: 'POST',
-        //   headers: { 'Content-Type': 'application/json' },
-        //   body: JSON.stringify({
-        //     message: message.text,
-        //     files: message.files,
-        //     history: messages,
-        //   }),
-        // });
-        // const data = await response.json();
+        // Get the streaming response
+        const response = await streamChat(message.text || '');
 
-        // Simulate AI response
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        // Handle ReadableStream
+        const reader = response.getReader();
+        const decoder = new TextDecoder();
 
-        const assistantMessage: ChatMessage = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: `I received your message: "${message.text}". How can I help you further?`,
-        };
+        try {
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
 
-        addMessage(assistantMessage);
+            const chunk = decoder.decode(value, { stream: true });
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === assistantMessageId
+                  ? { ...msg, content: msg.content + chunk }
+                  : msg
+              )
+            );
+          }
+        } finally {
+          reader.releaseLock();
+        }
       } catch (error) {
         console.error('Error sending message:', error);
         options?.onError?.(error as Error);

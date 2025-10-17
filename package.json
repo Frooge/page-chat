@@ -17,17 +17,21 @@
     "build:chrome": "vite build --config vite.config.chrome.ts",
     "build:firefox": "vite build --config vite.config.firefox.ts",
     "build:api-schema": "yarn workspace @page-chat/api-schema run build",
+    "build:backend": "yarn workspace backend run build",
     "build:all": "yarn build:api-schema && yarn build:chrome && yarn build:firefox",
     "dev": "nodemon --config nodemon.chrome.json",
     "dev:chrome": "nodemon --config nodemon.chrome.json",
-    "dev:firefox": "nodemon --config nodemon.firefox.json"
+    "dev:firefox": "nodemon --config nodemon.firefox.json",
+    "dev:backend": "yarn workspace backend run dev"
   },
   "type": "module",
   "dependencies": {
     "@page-chat/api-schema": "*",
     "axios": "^1.12.2",
+    "clsx": "^2.1.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.1",
     "webextension-polyfill": "^0.12.0"
   },
   "devDependencies": {
