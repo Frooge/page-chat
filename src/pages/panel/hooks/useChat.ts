@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { streamChat } from '../services/chatService';
+
+const API_URL = process.env.API_URL || 'http://localhost:3000';
 
 export interface ChatMessage {
   id: string;
@@ -52,11 +53,25 @@ export function useChat(options?: UseChatOptions) {
       addMessage(assistantMessage);
 
       try {
-        // Get the streaming response
-        const response = await streamChat(message.text || '');
+        // Send the message to the backend
+        const response = await fetch(`${API_URL}/chat/stream`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: message.text || '' }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to send message');
+        }
 
         // Handle ReadableStream
-        const reader = response.getReader();
+        const reader = response.body?.getReader();
+        if (!reader) {
+          throw new Error('No response body');
+        }
+
         const decoder = new TextDecoder();
 
         try {
