@@ -1,7 +1,7 @@
 import { cn } from '@src/lib/utils';
 import { ChatMessage } from '../hooks/useChat';
 import { UserIcon, BotIcon } from '@assets/icons';
-
+import Markdown from 'react-markdown';
 interface MessageBoxProps {
   message: ChatMessage;
   className?: string;
@@ -37,9 +37,9 @@ export function MessageBox({ message, className }: MessageBoxProps) {
           </span>
         </div>
         <div className="prose prose-sm max-w-none dark:prose-invert">
-          <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">
+          <Markdown>
             {message.content}
-          </p>
+          </Markdown>
         </div>
       </div>
     </div>

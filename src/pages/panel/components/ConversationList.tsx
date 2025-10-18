@@ -37,28 +37,26 @@ export function ConversationList({ messages, isLoading, className }: Conversatio
         </div>
       ) : (
         <div className="space-y-0">
-          {messages.map((message) => (
-            <MessageBox key={message.id} message={message} />
-          ))}
-          {isLoading && (
-            <div className="flex w-full gap-3 bg-muted/50 px-4 py-4">
-              <div className="flex-shrink-0">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple-500 text-white">
-                  <BotIcon size={18} />
-                </div>
+          {messages.map((message, index) => {
+            const isLastMessage = index === messages.length - 1;
+            const shouldShowLoading = isLoading && isLastMessage && message.role === 'assistant';
+            return (
+              <div key={message.id}>
+                <MessageBox message={message} />
+                {shouldShowLoading && (
+                  <div className="flex w-full bg-muted/50">
+                    <span className="w-[3rem]"></span>
+                    <div className="flex items-center gap-1 px-4 pb-4 pt-0">
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.3s]"></div>
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.15s]"></div>
+                      <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500"></div>
+                    </div>
+                  </div>
+
+                )}
               </div>
-              <div className="flex-1 space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold">Assistant</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.3s]"></div>
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500 [animation-delay:-0.15s]"></div>
-                  <div className="h-2 w-2 animate-bounce rounded-full bg-gray-500"></div>
-                </div>
-              </div>
-            </div>
-          )}
+            );
+          })}
           <div ref={messagesEndRef} />
         </div>
       )}
