@@ -16,10 +16,10 @@ chat.post(
     }
   }),
   async (c) => {
-    const { prompt } = c.req.valid('json');
+    const { prompt, messages } = c.req.valid('json');
 
     // Get the AI stream response
-    const response = await createAIStream(prompt);
+    const response = await createAIStream(prompt, messages);
     
     // Return the stream response directly
     return response;

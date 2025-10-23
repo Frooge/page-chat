@@ -59,7 +59,13 @@ export function useChat(options?: UseChatOptions) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ prompt: message.text || '' }),
+          body: JSON.stringify({ 
+            prompt: message.text || '',
+            messages: messages.map(msg => ({
+              role: msg.role,
+              content: msg.content
+            }))
+          }),
         });
 
         if (!response.ok) {

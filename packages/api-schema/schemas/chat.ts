@@ -7,6 +7,7 @@ export const ChatMessage = z.object({
 
 export const ChatStreamRequest = z.object({
   prompt: z.string().min(1, "Prompt cannot be empty"),
+  messages: z.array(ChatMessage).optional().default([]),
 });
 
 export const ChatStreamErrorResponse = z.object({
