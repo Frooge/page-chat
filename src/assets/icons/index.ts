@@ -15,3 +15,4 @@ export { CheckIcon } from './CheckIcon';
 export { ImageIcon } from './ImageIcon';
 export { FileIcon } from './FileIcon';
 export { LoadingIcon } from './LoadingIcon';
+export { GlobeIcon } from './GlobeIcon';

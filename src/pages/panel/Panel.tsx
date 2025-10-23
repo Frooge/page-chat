@@ -1,6 +1,7 @@
 'use client';
 
 import '@pages/panel/Panel.css';
+import { useState } from 'react';
 import { useChat } from './hooks/useChat';
 import { usePageContext } from './hooks/usePageContext';
 import { Header } from './components/Header';
@@ -9,7 +10,7 @@ import { InputPrompt } from './components/InputPrompt';
 
 export default function Panel() {
   const pageContext = usePageContext();
-  console.log('Page Context:', pageContext);
+  const [webSearch, setWebSearch] = useState(false);
   
   const { messages, isLoading, handleSubmit, clearMessages } = useChat({
     onError: (error) => {
@@ -17,13 +18,21 @@ export default function Panel() {
       // You can add toast notifications or other error handling here
     },
     pageContext,
+    webSearch,
   });
 
   return (
     <div className="flex h-screen w-full flex-col bg-background">
-      <Header onClearChat={clearMessages} />
+      <Header 
+        onClearChat={clearMessages}
+      />
       <ConversationList messages={messages} isLoading={isLoading} />
-      <InputPrompt onSubmit={handleSubmit} disabled={isLoading} />
+      <InputPrompt 
+        onSubmit={handleSubmit} 
+        disabled={isLoading}
+        webSearch={webSearch}
+        onWebSearchToggle={setWebSearch}
+      />
     </div>
   );
 }

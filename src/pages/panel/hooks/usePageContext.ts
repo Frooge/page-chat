@@ -12,7 +12,6 @@ export function usePageContext() {
   const fetchPageContext = async () => {
     try {
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-      console.log('Active tab:', tab);
       if (!tab?.id) return;
 
       const response = await chrome.tabs.sendMessage(tab.id, { type: 'GET_PAGE_CONTEXT' });

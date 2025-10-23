@@ -17,6 +17,7 @@ export interface PageContext {
 export interface UseChatOptions {
   onError?: (error: Error) => void;
   pageContext?: PageContext | null;
+  webSearch?: boolean;
 }
 
 export function useChat(options?: UseChatOptions) {
@@ -73,6 +74,7 @@ export function useChat(options?: UseChatOptions) {
               content: msg.content
             })),
             pageContext: options?.pageContext || undefined,
+            webSearch: options?.webSearch || false,
           }),
         });
 

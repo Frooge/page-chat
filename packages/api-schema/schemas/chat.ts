@@ -15,6 +15,7 @@ export const ChatStreamRequest = z.object({
   prompt: z.string().min(1, "Prompt cannot be empty"),
   messages: z.array(ChatMessage).optional().default([]),
   pageContext: PageContext.optional(),
+  webSearch: z.boolean().optional().default(false),
 });
 
 export const ChatStreamErrorResponse = z.object({
