@@ -8,8 +8,15 @@ export interface ChatMessage {
   content: string;
 }
 
+export interface PageContext {
+  url: string;
+  title: string;
+  content: string;
+}
+
 export interface UseChatOptions {
   onError?: (error: Error) => void;
+  pageContext?: PageContext | null;
 }
 
 export function useChat(options?: UseChatOptions) {
@@ -64,7 +71,8 @@ export function useChat(options?: UseChatOptions) {
             messages: messages.map(msg => ({
               role: msg.role,
               content: msg.content
-            }))
+            })),
+            pageContext: options?.pageContext || undefined,
           }),
         });
 
