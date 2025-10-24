@@ -5,27 +5,31 @@ import baseConfig, { baseManifest, baseBuildOptions } from './vite.config.base'
 
 const outDir = resolve(__dirname, 'dist_firefox');
 
-export default mergeConfig(
-  baseConfig,
-  defineConfig({
-    plugins: [
-      crx({
-        manifest: {
-          ...baseManifest,
-          background: {
-            scripts: [ 'src/pages/background/index.ts' ]
-          },
-        } as ManifestV3Export,
-        browser: 'firefox',
-        contentScripts: {
-          injectCss: true,
-        }
-      })
-    ],
-    build: {
-      ...baseBuildOptions,
-      outDir
-    },
-    publicDir: resolve(__dirname, 'public'),
-  })
-)
+export default defineConfig(({ mode }) => {
+  const base = typeof baseConfig === 'function' ? baseConfig({ mode, command: 'build' }) : baseConfig;
+  
+  return mergeConfig(
+    base,
+    {
+      plugins: [
+        crx({
+          manifest: {
+            ...baseManifest,
+            background: {
+              scripts: [ 'src/pages/background/index.ts' ]
+            },
+          } as ManifestV3Export,
+          browser: 'firefox',
+          contentScripts: {
+            injectCss: true,
+          }
+        })
+      ],
+      build: {
+        ...baseBuildOptions,
+        outDir
+      },
+      publicDir: resolve(__dirname, 'public'),
+    }
+  );
+});

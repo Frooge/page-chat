@@ -28,7 +28,6 @@ export function InputPrompt({
     onSubmit({ text: input });
     setInput('');
     
-    // Reset textarea height
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
     }
@@ -44,7 +43,6 @@ export function InputPrompt({
   const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
     
-    // Auto-resize textarea
     const textarea = e.target;
     textarea.style.height = 'auto';
     textarea.style.height = `${Math.min(textarea.scrollHeight, 200)}px`;
@@ -53,7 +51,6 @@ export function InputPrompt({
   return (
     <div className={cn('bg-background p-4', className)}>
       <div className="flex flex-col rounded-md border border-input bg-background">
-        {/* Text input - Full width row */}
         <textarea
           ref={textareaRef}
           value={input}
@@ -66,9 +63,7 @@ export function InputPrompt({
           style={{ maxHeight: '200px' }}
         />
 
-        {/* Bottom row: Web search toggle (left) and Send button (right) */}
         <div className="flex items-center justify-between px-2 py-1 border-t border-border">
-          {/* Web search toggle */}
           {onWebSearchToggle ? (
             <button
               onClick={() => onWebSearchToggle(!webSearch)}
@@ -89,7 +84,6 @@ export function InputPrompt({
             <div />
           )}
 
-          {/* Submit button */}
           <button
             onClick={handleSubmit}
             disabled={disabled || !input.trim()}

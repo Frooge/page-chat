@@ -22,10 +22,8 @@ export function usePageContext() {
   };
 
   useEffect(() => {
-    // Fetch page context on mount
     fetchPageContext();
 
-    // Listen for tab updates (navigation)
     const handleTabUpdate = (tabId: number, changeInfo: any, tab: chrome.tabs.Tab) => {
       if (changeInfo.status === 'complete' && tab.active) {
         fetchPageContext();
@@ -34,7 +32,6 @@ export function usePageContext() {
 
     chrome.tabs.onUpdated.addListener(handleTabUpdate);
 
-    // Listen for tab activation (switching tabs)
     const handleTabActivated = (activeInfo: any) => {
       fetchPageContext();
     };

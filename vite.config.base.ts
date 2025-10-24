@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
 import { ManifestV3Export } from '@crxjs/vite-plugin';
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig, BuildOptions } from 'vite';
+import { defineConfig, BuildOptions, loadEnv } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { stripDevIcons, crxI18n } from './custom-vite-plugins';
 import manifest from './manifest.json';
@@ -30,13 +30,21 @@ export const baseBuildOptions: BuildOptions = {
   emptyOutDir: !isDev
 }
 
-export default defineConfig({
-  plugins: [
-    tailwindcss(),
-    tsconfigPaths(),
-    react(),
-    stripDevIcons(isDev),
-    crxI18n({ localize, src: './src/locales' }),
-  ],
-  publicDir: resolve(__dirname, 'public'),
+export default defineConfig(({ mode }) => {
+  // Load env file based on `mode` in the current working directory.
+  const env = loadEnv(mode, process.cwd(), '');
+  
+  return {
+    plugins: [
+      tailwindcss(),
+      tsconfigPaths(),
+      react(),
+      stripDevIcons(isDev),
+      crxI18n({ localize, src: './src/locales' }),
+    ],
+    publicDir: resolve(__dirname, 'public'),
+    define: {
+      'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
+    },
+  };
 });

@@ -2,7 +2,7 @@ import { useChat as useAIChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import { useMemo, useRef } from 'react';
 
-const API_URL = process.env.API_URL || 'http://localhost:3000';
+const API_URL = process.env.VITE_API_URL;
 
 export interface PageContext {
   url: string;
@@ -39,7 +39,6 @@ export function useChat(options?: UseChatOptions) {
     onError: options?.onError,
   });
 
-  // Derived state for compatibility
   const isLoading = status === 'submitted' || status === 'streaming';
 
   return {
@@ -51,7 +50,6 @@ export function useChat(options?: UseChatOptions) {
     stop,
     regenerate,
     setMessages,
-    // Legacy compatibility methods
     handleSubmit: (message: { text?: string; files?: any[] }) => {
       if (message.text?.trim()) {
         sendMessage({ text: message.text, files: message.files });

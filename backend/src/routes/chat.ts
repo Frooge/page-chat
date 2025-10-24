@@ -19,14 +19,10 @@ chat.post(
   async (c) => {
     const { messages, pageContext, webSearch } = c.req.valid('json');
 
-    // Convert UIMessages to ModelMessages for the AI SDK
-    // Using 'unknown' first to avoid type issues with Zod validated data
     const modelMessages = convertToModelMessages(messages as unknown as UIMessage[]);
 
-    // Get the AI stream response
     const response = await createAIStream(modelMessages, pageContext, webSearch);
     
-    // Return the stream response directly
     return response;
   }
 );

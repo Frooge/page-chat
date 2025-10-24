@@ -42,7 +42,6 @@ export function MessageBox({ message, className }: MessageBoxProps) {
         </div>
         <div className="space-y-2">
           {message.parts.map((part, index) => {
-            // Text part - render as markdown
             if (part.type === 'text') {
               return (
                 <div key={index} className="prose prose-sm max-w-none dark:prose-invert">
@@ -64,18 +63,15 @@ export function MessageBox({ message, className }: MessageBoxProps) {
               );
             }
 
-            // Reasoning part - collapsible section
             if (part.type === 'reasoning') {
               return (
                 <ReasoningText key={index} text={part.text} />
               );
             }
 
-            // Tool invocation part (typed tools)
             if (part.type.startsWith('tool-')) {
               const toolPart = part as ToolUIPart | DynamicToolUIPart;
               
-              // Only show tool calls that have completed or have output/error
               if (toolPart.state === 'output-available' || toolPart.state === 'output-error') {
                 const toolName = 'toolName' in toolPart 
                   ? toolPart.toolName 
@@ -93,7 +89,6 @@ export function MessageBox({ message, className }: MessageBoxProps) {
               return null;
             }
 
-            // File part - render images
             if (part.type === 'file' && part.mediaType?.startsWith('image/')) {
               return (
                 <img
@@ -105,7 +100,6 @@ export function MessageBox({ message, className }: MessageBoxProps) {
               );
             }
 
-            // File part - render as download link
             if (part.type === 'file') {
               return (
                 <a
@@ -122,7 +116,6 @@ export function MessageBox({ message, className }: MessageBoxProps) {
               );
             }
 
-            // Source URL part
             if (part.type === 'source-url') {
               return (
                 <a
@@ -137,7 +130,6 @@ export function MessageBox({ message, className }: MessageBoxProps) {
               );
             }
 
-            // Source document part
             if (part.type === 'source-document') {
               return (
                 <span key={index} className="inline-flex items-center gap-1 text-sm text-muted-foreground">
@@ -146,7 +138,6 @@ export function MessageBox({ message, className }: MessageBoxProps) {
               );
             }
 
-            // Default: return null for unknown parts
             return null;
           })}
         </div>
