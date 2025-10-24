@@ -2,13 +2,6 @@
 
 AI-powered browser extension for chatting with web pages using Google's Gemini AI with optional web search.
 
-## Prerequisites
-
-- Node.js >= 20.x
-- Yarn >= 1.22.22
-- [Google AI API Key](https://aistudio.google.com/app/apikey)
-- [Tavily API Key](https://tavily.com/) (optional, for web search)
-
 ## Setup
 
 1. **Install dependencies**
@@ -58,5 +51,9 @@ yarn dev:firefox
 - Hono (backend) + Google Gemini AI
 - Tavily (web search)
 
-## Contributions
-Feel free to contribute, just submit a pull request
+## Contributing
+Feel free to contribute, just open PRs or raise issues.
+
+## Credits
+
+Thanks to [vite-web-extension](https://github.com/JohnBra/vite-web-extension) for the initial template.
