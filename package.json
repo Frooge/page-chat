@@ -1,16 +1,12 @@
 {
-  "name": "vite-web-extension",
+  "name": "hal-page-chat-assistant",
   "version": "1.4.0",
-  "description": "A simple chrome & firefox extension template with Vite, React, TypeScript and Tailwind CSS.",
+  "description": "AI powered page chat assistant that helps you understand and interact with web pages.",
   "license": "MIT",
   "private": true,
   "workspaces": [
     "backend"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/JohnBra/vite-web-extension.git"
-  },
   "scripts": {
     "build": "vite build --config vite.config.chrome.ts",
     "build:chrome": "vite build --config vite.config.chrome.ts",
