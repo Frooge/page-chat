@@ -44,7 +44,7 @@ export default defineConfig(({ mode }) => {
     ],
     publicDir: resolve(__dirname, 'public'),
     define: {
-      'process.env.VITE_API_URL': JSON.stringify(env.VITE_API_URL || 'http://localhost:3000'),
+      'process.env.VITE_API_URL': JSON.stringify(isDev ? 'http://localhost:3000' : env.VITE_API_URL),
     },
   };
 });
