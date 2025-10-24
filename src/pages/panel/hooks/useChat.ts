@@ -1,12 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useChat as useAIChat } from '@ai-sdk/react';
+import { DefaultChatTransport } from 'ai';
+import { useMemo, useRef } from 'react';
 
 const API_URL = process.env.API_URL || 'http://localhost:3000';
-
-export interface ChatMessage {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-}
 
 export interface PageContext {
   url: string;
@@ -21,108 +17,54 @@ export interface UseChatOptions {
 }
 
 export function useChat(options?: UseChatOptions) {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const optionsRef = useRef(options);
+  optionsRef.current = options;
 
-  const addMessage = useCallback((message: ChatMessage) => {
-    setMessages((prev) => [...prev, message]);
-  }, []);
+  const {
+    messages,
+    sendMessage,
+    status,
+    error,
+    stop,
+    regenerate,
+    setMessages,
+  } = useAIChat({
+    transport: new DefaultChatTransport({
+        api: `${API_URL}/chat/stream`,
+        body: () => ({
+          pageContext: optionsRef.current?.pageContext || undefined,
+          webSearch: optionsRef.current?.webSearch || false,
+        }),
+      }),
+    onError: options?.onError,
+  });
 
-  const clearMessages = useCallback(() => {
-    setMessages([]);
-  }, []);
-
-  const removeMessage = useCallback((id: string) => {
-    setMessages((prev) => prev.filter((msg) => msg.id !== id));
-  }, []);
-
-  const handleSubmit = useCallback(
-    async (message: { text?: string; files?: any[] }) => {
-      if (!message.text?.trim() && !message.files?.length) return;
-
-      // Add user message
-      const userMessage: ChatMessage = {
-        id: Date.now().toString(),
-        role: 'user',
-        content: message.text || '',
-      };
-
-      addMessage(userMessage);
-      setIsLoading(true);
-
-      // Create assistant message placeholder
-      const assistantMessageId = (Date.now() + 1).toString();
-      const assistantMessage: ChatMessage = {
-        id: assistantMessageId,
-        role: 'assistant',
-        content: '',
-      };
-
-      addMessage(assistantMessage);
-
-      try {
-        // Send the message to the backend
-        const response = await fetch(`${API_URL}/chat/stream`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            prompt: message.text || '',
-            messages: messages.map(msg => ({
-              role: msg.role,
-              content: msg.content
-            })),
-            pageContext: options?.pageContext || undefined,
-            webSearch: options?.webSearch || false,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to send message');
-        }
-
-        // Handle ReadableStream
-        const reader = response.body?.getReader();
-        if (!reader) {
-          throw new Error('No response body');
-        }
-
-        const decoder = new TextDecoder();
-
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-
-            const chunk = decoder.decode(value, { stream: true });
-            setMessages((prev) =>
-              prev.map((msg) =>
-                msg.id === assistantMessageId
-                  ? { ...msg, content: msg.content + chunk }
-                  : msg
-              )
-            );
-          }
-        } finally {
-          reader.releaseLock();
-        }
-      } catch (error) {
-        console.error('Error sending message:', error);
-        options?.onError?.(error as Error);
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [addMessage, options]
-  );
+  // Derived state for compatibility
+  const isLoading = status === 'submitted' || status === 'streaming';
 
   return {
     messages,
+    sendMessage,
+    status,
+    error,
     isLoading,
-    handleSubmit,
-    addMessage,
-    clearMessages,
-    removeMessage,
+    stop,
+    regenerate,
+    setMessages,
+    // Legacy compatibility methods
+    handleSubmit: (message: { text?: string; files?: any[] }) => {
+      if (message.text?.trim()) {
+        sendMessage({ text: message.text, files: message.files });
+      }
+    },
+    addMessage: (message: any) => {
+      setMessages((prev) => [...prev, message]);
+    },
+    clearMessages: () => {
+      setMessages([]);
+    },
+    removeMessage: (id: string) => {
+      setMessages((prev) => prev.filter((msg) => msg.id !== id));
+    },
   };
 }
