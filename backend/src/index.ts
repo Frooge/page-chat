@@ -9,8 +9,9 @@ const app = new Hono()
 // Enable CORS for browser extension
 app.use('/*', cors())
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
+// Health check endpoint
+app.get('/health', (c) => {
+  return c.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
 // Mount chat routes
