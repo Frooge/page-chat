@@ -25,6 +25,8 @@ jobs:
  
       - name: Build Chrome
         run: yarn build:chrome
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
       - name: Upload Chrome extension artifacts
         uses: actions/upload-artifact@v4
