@@ -23,6 +23,7 @@ export default function Panel() {
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       <Header 
+        title={'Chat'}
         onClearChat={clearMessages}
       />
       <ConversationList messages={messages} isLoading={isLoading} />

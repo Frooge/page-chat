@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Page Chat",
-  "description": "AI powered page chat assistantS",
+  "name": "Hal - Page Chat Assistant",
+  "description": "AI powered page chat assistant that helps you understand and interact with web pages.",
   "options_ui": {
     "page": "src/pages/options/index.html"
   },

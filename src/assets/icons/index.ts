@@ -2,6 +2,7 @@ export { SendIcon } from './SendIcon';
 export { AttachmentIcon } from './AttachmentIcon';
 export { CloseIcon } from './CloseIcon';
 export { TrashIcon } from './TrashIcon';
+export { PlusIcon } from './PlusIcon';
 export { ChatIcon } from './ChatIcon';
 export { SettingsIcon } from './SettingsIcon';
 export { UserIcon } from './UserIcon';
