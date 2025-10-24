@@ -5,8 +5,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "backend",
-    "packages/*"
+    "backend"
   ],
   "repository": {
     "type": "git",
@@ -27,7 +26,6 @@
   "type": "module",
   "dependencies": {
     "@ai-sdk/react": "^2.0.78",
-    "@page-chat/api-schema": "*",
     "axios": "^1.12.2",
     "clsx": "^2.1.1",
     "react": "^19.1.0",

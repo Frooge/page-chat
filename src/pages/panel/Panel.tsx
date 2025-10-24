@@ -15,7 +15,6 @@ export default function Panel() {
   const { messages, isLoading, handleSubmit, clearMessages } = useChat({
     onError: (error) => {
       console.error('Chat error:', error);
-      // You can add toast notifications or other error handling here
     },
     pageContext,
     webSearch,

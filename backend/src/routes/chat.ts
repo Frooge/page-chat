@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { ChatStreamRequest, ChatStreamErrorResponse } from '@page-chat/api-schema';
+import { ChatStreamRequest, ChatStreamErrorResponse } from '../schema/chat.js';
 import { createAIStream } from '../ai/stream.js';
 import { convertToModelMessages, type UIMessage } from 'ai';
 
