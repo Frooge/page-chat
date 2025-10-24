@@ -36,7 +36,7 @@ export function ToolCall({ toolName, args, result, className }: ToolCallProps) {
   const message = getToolMessage(toolName, args, result !== undefined);
 
   return (
-    <div className={cn('text-sm text-muted-foreground', className)}>
+    <div className={cn('text-xs text-muted-foreground', className)}>
       {message}
     </div>
   );

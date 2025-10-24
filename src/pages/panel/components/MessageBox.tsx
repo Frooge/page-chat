@@ -13,7 +13,6 @@ interface MessageBoxProps {
 
 export function MessageBox({ message, className }: MessageBoxProps) {
   const isUser = message.role === 'user';
-  console.log('Rendering message:', message);
 
   return (
     <div
@@ -47,7 +46,20 @@ export function MessageBox({ message, className }: MessageBoxProps) {
             if (part.type === 'text') {
               return (
                 <div key={index} className="prose prose-sm max-w-none dark:prose-invert">
-                  <Markdown>{part.text}</Markdown>
+                  <Markdown
+                    components={{
+                      a: ({ node, ...props }) => (
+                        <a
+                          {...props}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 hover:text-blue-600 underline cursor-pointer"
+                        />
+                      ),
+                    }}
+                  >
+                    {part.text}
+                  </Markdown>
                 </div>
               );
             }

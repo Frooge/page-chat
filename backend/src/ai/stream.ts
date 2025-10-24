@@ -9,9 +9,14 @@ export async function createAIStream(
   pageContext?: PageContext,
   webSearch: boolean = false
 ) {
+  const options = {
+    pageContext,
+    webSearch
+  }
+
   const systemMessage: ModelMessage = {
     role: 'system',
-    content: getSystemPrompt(pageContext)
+    content: getSystemPrompt(options)
   };
 
   const result = streamText({
@@ -27,7 +32,7 @@ export async function createAIStream(
       }),
     },
     maxRetries: 3,
-    stopWhen: stepCountIs(5)
+    stopWhen: stepCountIs(10)
   });
 
   return result.toUIMessageStreamResponse();
