@@ -1,7 +1,5 @@
 # Privacy Policy for Hal - Page Chat Assistant
 
-**Last Updated:** October 29, 2025
-
 ## Overview
 Hal - Page Chat Assistant is a browser extension that helps you understand and interact with web pages using AI assistance.
 
@@ -51,8 +49,10 @@ The extension requires the following permissions:
 We may update this privacy policy from time to time. Changes will be reflected by updating the "Last Updated" date.
 
 ## Contact
-For questions about this privacy policy, please open an issue on our [GitHub repository](https://github.com/Frooge/page-chat).
+For questions about this privacy policy, please open an issue on this repository
 
 ---
 
 This extension does not collect, store, or transmit personal data. All processing is transient and occurs only during active use.
+
+**Last Updated:** October 29, 2025
