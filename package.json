@@ -16,7 +16,8 @@
     "dev": "nodemon --config nodemon.chrome.json",
     "dev:chrome": "nodemon --config nodemon.chrome.json",
     "dev:firefox": "nodemon --config nodemon.firefox.json",
-    "dev:backend": "yarn workspace backend run dev"
+    "dev:backend": "yarn workspace backend run dev",
+    "prod:backend": "yarn workspace backend run start"
   },
   "type": "module",
   "dependencies": {
