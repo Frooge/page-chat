@@ -1,6 +1,6 @@
 {
   "name": "hal-page-chat-assistant",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "AI powered page chat assistant that helps you understand and interact with web pages.",
   "license": "MIT",
   "private": true,
